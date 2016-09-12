@@ -48,6 +48,15 @@ startTime = time.time()
 # use real browser for test purposes
 browser = Browser('chrome')
 
-url = "https://" + username + ":" + password + "@" + user_address + ":" + user_port
+url = "https://" + user_address + ":" + user_port
 print(url)
 browser.visit(url)
+
+xpath_username = '//*[@id="user_username"]'
+xpath_password = '//*[@id="user_password"]'
+
+browser.find_by_xpath(xpath_username).first.fill(username)
+browser.find_by_xpath(xpath_password).first.fill(password)
+browser.find_by_name('button').first.click()
+
+
