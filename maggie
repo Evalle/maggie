@@ -1,0 +1,53 @@
+#!/usr/bin/python
+# global imports
+import sys
+import argparse
+import time
+from configparser import SafeConfigParser
+from splinter import Browser
+
+class Colors:
+
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    END = '\033[0m'
+
+
+green = Colors.GREEN
+yellow = Colors.YELLOW
+red = Colors.RED
+end = Colors.END
+
+# config parser
+parser = SafeConfigParser()
+parser.read('maggie.config')
+
+if parser.has_option('credentials', 'username') and parser.has_option('credentials', 'password'):
+    username = parser.get('credentials', 'username')
+    password = parser.get('credentials', 'password')
+else:
+    print('You need to configure maggie.config first')
+    sys.exit(1)
+
+# argument parser
+parser = argparse.ArgumentParser(description="Portus autotestsuite, run it via 'maggie -a <address> -p <port>'")
+parser.add_argument('address',
+        help = "portus address, for example 192.168.0.2")
+parser.add_argument('port',
+        help = "portus port, for example 80, 3000")
+args = parser.parse_args()
+user_address = args.address
+user_port = args.port
+
+startTime = time.time()
+
+# 'production' browser
+#browser = Browser('phantomjs')
+# use real browser for test purposes
+browser = Browser('chrome')
+
+url = "https://" + username + ":" + password + "@" + user_address + ":" + user_port
+print(url)
+browser.visit(url)
