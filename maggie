@@ -24,9 +24,10 @@ end = Colors.END
 parser = SafeConfigParser()
 parser.read('maggie.config')
 
-if parser.has_option('credentials', 'username') and parser.has_option('credentials', 'password'):
+if parser.has_option('credentials', 'username') and parser.has_option('credentials', 'password') and parser.has_option('portus', 'version'):
     username = parser.get('credentials', 'username')
     password = parser.get('credentials', 'password')
+    version = parser.get('portus', 'version')
 else:
     print('You need to configure maggie.config first')
     sys.exit(1)
@@ -77,11 +78,17 @@ class Checker(object):
             self.success += 1
         else:
             print("%-40s %s" % (text, red + 'FAILED' + end))
+    
+def section_output(uline, title): 
+    print()
+    print(title)
+    print(len(title) * uline)
 
 
 ck = Checker(browser)
 
-ck.chktext('Version: 2.0.5')
+section_output('*', 'Portus version')
+ck.chktext(version)
 
 
 
