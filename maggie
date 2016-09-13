@@ -52,11 +52,36 @@ url = "https://" + user_address + ":" + user_port
 print(url)
 browser.visit(url)
 
+
+# authentication on the main page
 xpath_username = '//*[@id="user_username"]'
 xpath_password = '//*[@id="user_password"]'
-
 browser.find_by_xpath(xpath_username).first.fill(username)
 browser.find_by_xpath(xpath_password).first.fill(password)
 browser.find_by_name('button').first.click()
+
+# main class
+
+class Checker(object):
+
+    def __init__(self, browser):
+        
+        self.browser = browser
+        self.errors = 0
+        self.success = 0
+
+    def chktext(self, text):
+
+        if self.browser.is_text_present(text):
+            print("%-40s %s" % (text, green + 'PASSED' + end))
+            self.success += 1
+        else:
+            print("%-40s %s" % (text, red + 'FAILED' + end))
+
+
+ck = Checker(browser)
+
+ck.chktext('Version: 2.0.5')
+
 
 
