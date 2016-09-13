@@ -28,6 +28,7 @@ if parser.has_option('credentials', 'username') and parser.has_option('credentia
     username = parser.get('credentials', 'username')
     password = parser.get('credentials', 'password')
     version = parser.get('portus', 'version')
+    repaddr = parser.get('portus', 'repaddress')
 else:
     print('You need to configure maggie.config first')
     sys.exit(1)
@@ -94,19 +95,16 @@ def section_output(uline, title):
     print(title)
     print(len(title) * uline)
 
-
-
-
-# test runners
+### test runners
 ck = Checker(browser)
 
+# check if version of portus is correct (see .conf file for more info
 section_output('*', 'Portus version')
 ck.chktext(version)
 
+# check every available section on the left side of the main page 
 section_output('*', 'Main page tests')
 ck.chktext(username)
-
-# check every available section on the left side of the main page 
 for i,k in (('/', 'Recent activities'), 
         ('/namespaces', 'Special namespaces'),
         ('/teams', 'Teams you are member of'), 
@@ -115,9 +113,14 @@ for i,k in (('/', 'Recent activities'),
         ck.openpage(i, k)
     except:
         browser.driver.save_screenshot('screenshot.png')
-
 # go back to the main page
 ck.clicklink('/')
+
+# check Repositories section on the main page
+section_output('*', 'Repositories section tests')
+ck.chktext('Repositories')
+ck.chktext(repaddr)
+
 
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
