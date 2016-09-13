@@ -46,7 +46,10 @@ user_port = args.port
 
 startTime = time.time()
 
-browser = Browser('phantomjs', service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any'])
+# test browser
+browser = Browser('chrome')
+# prodcution browser
+#browser = Browser('phantomjs', service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any'])
 browser.driver.set_window_size(1920 ,1080)
 url = "https://" + user_address + ":" + user_port 
 browser.visit(url)
@@ -80,7 +83,7 @@ class Checker(object):
             self.errors += 1
     
     def openpage(self, link, text):
-        """ open new page in the same window, and check if some text 
+        """ open a new page in the same window, and check if some text 
         exists """ 
         self.browser.click_link_by_partial_href(link)
         self.chktext(text)
@@ -89,6 +92,10 @@ class Checker(object):
         """ click on particular link on the web page """
         self.browser.click_link_by_partial_href(link)
     
+    def clickid(self, id):
+        """ click on particular link (by id) on the web page """
+        self.browser.find_by_id(id).first.click()
+
     def findlink(self, link):
         """ find particular element on the page """
         if  self.browser.find_link_by_partial_href(link):
@@ -97,7 +104,7 @@ class Checker(object):
         else:
             print("%-40s %s" % (link, red + 'FAILED' + end))
             self.errors += 1
-
+    
 def section_output(uline, title): 
     """ print the name of the section plus divided line """ 
     print()
@@ -126,10 +133,27 @@ for i,k in (('/', 'Recent activities'),
 ck.clicklink('/')
 
 # check Repositories section on the main page
-section_output('*', 'Repositories section tests')
+section_output('-', 'Repositories section tests')
 ck.chktext('Repositories')
 for link in ('#all', '#starred', '#personal'):
     ck.findlink(link)
+
+# Team section tests
+section_output('*', 'Team section tests')
+ck.clicklink('/teams')
+ck.clickid('add_team_btn')
+browser.find_by_id('team_name').first.fill('qamteam')
+browser.find_by_id('team_description').first.fill('QAM team')
+ck.chktext('qamteam')
+
+# Namespaces section tests
+#section_output('*', 'Namespaces section tests')
+#ck.clicklink('/namespaces')
+#ck.clickid('add_namespace_btn')
+#browser.find_by_id('namespace_namespace').first.fill('linux')
+#browser.find_by_id('namespace_team').first.fill('QA Maintenanc
+
+
 
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
