@@ -24,7 +24,8 @@ end = Colors.END
 parser = SafeConfigParser()
 parser.read('maggie.config')
 
-if parser.has_option('credentials', 'username') and parser.has_option('credentials', 'password') and parser.has_option('portus', 'version'):
+if parser.has_option('credentials', 'username') and parser.has_option('credentials', 'password') and \
+        parser.has_option('portus', 'version'):
     username = parser.get('credentials', 'username')
     password = parser.get('credentials', 'password')
     version = parser.get('portus', 'version')
@@ -87,7 +88,15 @@ class Checker(object):
     def clicklink(self, link):
         """ click on particular link on the web page """
         self.browser.click_link_by_partial_href(link)
-
+    
+    def findlink(self, link):
+        """ find particular element on the page """
+        if  self.browser.find_link_by_partial_href(link):
+            print("%-40s %s" % (link, green + 'PASSED' + end))
+            self.success += 1
+        else:
+            print("%-40s %s" % (link, red + 'FAILED' + end))
+            self.errors += 1
 
 def section_output(uline, title): 
     """ print the name of the section plus divided line """ 
@@ -119,8 +128,8 @@ ck.clicklink('/')
 # check Repositories section on the main page
 section_output('*', 'Repositories section tests')
 ck.chktext('Repositories')
-ck.chktext(repaddr)
-
+for link in ('#all', '#starred', '#personal'):
+    ck.findlink(link)
 
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
