@@ -82,6 +82,10 @@ class Checker(object):
         exists """ 
         self.browser.click_link_by_partial_href(link)
         self.chktext(text)
+    
+    def clicklink(self, link):
+        """ click on particular link on the web page """
+        self.browser.click_link_by_partial_href(link)
 
 
 def section_output(uline, title): 
@@ -91,6 +95,9 @@ def section_output(uline, title):
     print(len(title) * uline)
 
 
+
+
+# test runners
 ck = Checker(browser)
 
 section_output('*', 'Portus version')
@@ -99,18 +106,19 @@ ck.chktext(version)
 section_output('*', 'Main page tests')
 ck.chktext(username)
 
-
-# we need to put time.sleep(1) here because of synchronization issue 
+# check every available section on the left side of the main page 
 for i,k in (('/', 'Recent activities'), 
         ('/namespaces', 'Special namespaces'),
         ('/teams', 'Teams you are member of'), 
         ('/admin/dashboard', 'Recent activities')):
-    #time.sleep(1)
     try:
         ck.openpage(i, k)
     except:
         browser.driver.save_screenshot('screenshot.png')
-        
+
+# go back to the main page
+ck.clicklink('/')
+
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
 print(green + 'Successes: ' + str(ck.success) + end)
