@@ -44,16 +44,19 @@ user_port = args.port
 
 startTime = time.time()
 
-# phantomjs doesn't suppoort xpath (see https://github.com/ariya/phantomjs/issues/10161) so we need to use chrome driver
-browser = Browser('chrome')
-url = "https://" + user_address + ":" + user_port
+browser = Browser('phantomjs', service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any'])
+browser.driver.set_window_size(1920 ,1080)
+url = "https://" + user_address + ":" + user_port 
 browser.visit(url)
 
 # authentication on the main portus page
-xpath_username = '//*[@id="user_username"]'
-xpath_password = '//*[@id="user_password"]'
-browser.find_by_xpath(xpath_username).first.fill(username)
-browser.find_by_xpath(xpath_password).first.fill(password)
+#xpath_username = '//*[@id="user_username"]'
+#xpath_password = '//*[@id="user_password"]'
+#browser.find_by_xpath(xpath_username).first.fill(username)
+#browser.find_by_xpath(xpath_password).first.fill(password)
+#browser.find_by_name('button').first.click()
+browser.find_by_id('user_username').first.fill(username)
+browser.find_by_id('user_password').first.fill(password)
 browser.find_by_name('button').first.click()
 
 # main class
@@ -102,8 +105,11 @@ for i,k in (('/', 'Recent activities'),
         ('/namespaces', 'Special namespaces'),
         ('/teams', 'Teams you are member of'), 
         ('/admin/dashboard', 'Recent activities')):
-    time.sleep(1)
-    ck.openpage(i, k)
+    #time.sleep(1)
+    try:
+        ck.openpage(i, k)
+    except:
+        browser.driver.save_screenshot('screenshot.png')
         
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
