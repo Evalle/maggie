@@ -14,7 +14,7 @@ class Colors:
     RED = '\033[91m'
     END = '\033[0m'
 
-
+blue = Colors.BLUE
 green = Colors.GREEN
 yellow = Colors.YELLOW
 red = Colors.RED
@@ -44,17 +44,11 @@ user_port = args.port
 
 startTime = time.time()
 
-# 'production' browser
-#browser = Browser('phantomjs')
-# use real browser for test purposes
 browser = Browser('chrome')
-
 url = "https://" + user_address + ":" + user_port
-print(url)
 browser.visit(url)
 
-
-# authentication on the main page
+# authentication on the main portus page
 xpath_username = '//*[@id="user_username"]'
 xpath_password = '//*[@id="user_password"]'
 browser.find_by_xpath(xpath_username).first.fill(username)
@@ -62,7 +56,6 @@ browser.find_by_xpath(xpath_password).first.fill(password)
 browser.find_by_name('button').first.click()
 
 # main class
-
 class Checker(object):
 
     def __init__(self, browser):
@@ -72,14 +65,19 @@ class Checker(object):
         self.success = 0
 
     def chktext(self, text):
-
+        """ check if text is present and visible on the page """ 
         if self.browser.is_text_present(text):
             print("%-40s %s" % (text, green + 'PASSED' + end))
             self.success += 1
         else:
             print("%-40s %s" % (text, red + 'FAILED' + end))
+            self.errors += 1
+
+
     
+
 def section_output(uline, title): 
+    """ print the name of the section plus divided line """ 
     print()
     print(title)
     print(len(title) * uline)
@@ -90,5 +88,12 @@ ck = Checker(browser)
 section_output('*', 'Portus version')
 ck.chktext(version)
 
+section_output('*', 'Main page tests')
+ck.chktext(username)
 
+section_output('*', 'Summary')
+print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
+print(green + 'Successes: ' + str(ck.success) + end)
+print(red + 'Errors: ' + str(ck.errors) + end)
+print(yellow + 'It took: {0:0.1f} seconds'.format(time.time() - startTime) + end) 
 
