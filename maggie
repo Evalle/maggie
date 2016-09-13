@@ -44,6 +44,7 @@ user_port = args.port
 
 startTime = time.time()
 
+# phantomjs doesn't suppoort xpath (see https://github.com/ariya/phantomjs/issues/10161) so we need to use chrome driver
 browser = Browser('chrome')
 url = "https://" + user_address + ":" + user_port
 browser.visit(url)
@@ -72,9 +73,13 @@ class Checker(object):
         else:
             print("%-40s %s" % (text, red + 'FAILED' + end))
             self.errors += 1
-
-
     
+    def openpage(self, link, text):
+        """ open new page in the same window, and check if some text 
+        exists """ 
+        self.browser.click_link_by_partial_href(link)
+        self.chktext(text)
+
 
 def section_output(uline, title): 
     """ print the name of the section plus divided line """ 
@@ -91,6 +96,15 @@ ck.chktext(version)
 section_output('*', 'Main page tests')
 ck.chktext(username)
 
+
+# we need to put time.sleep(1) here because of synchronization issue 
+for i,k in (('/', 'Recent activities'), 
+        ('/namespaces', 'Special namespaces'),
+        ('/teams', 'Teams you are member of'), 
+        ('/admin/dashboard', 'Recent activities')):
+    time.sleep(1)
+    ck.openpage(i, k)
+        
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
 print(green + 'Successes: ' + str(ck.success) + end)
