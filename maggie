@@ -180,7 +180,7 @@ section_output('-', 'Check Public-private button functionality')
 ck.clicklink('/namespaces')
 time.sleep(1)
 browser.find_link_by_partial_href('/namespaces/').last.click()
-# 16) check that our activity is visible on the main page
+# check that our activity is visible on the main page
 time.sleep(1)
 ck.openpage('/', username + ' set the ' + randomword + ' namespace as private')
 
