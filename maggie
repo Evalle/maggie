@@ -175,6 +175,17 @@ browser.find_link_by_partial_href('/namespaces/').last.click()
 time.sleep(1)
 ck.openpage('/', username + ' set the ' + randomword + ' namespace as public')
 
+# 15) Namespace section check Public - Private namespace functionality
+section_output('-', 'Check Public-private button functionality')
+ck.clicklink('/namespaces')
+time.sleep(1)
+browser.find_link_by_partial_href('/namespaces/').last.click()
+# 16) check that our activity is visible on the main page
+time.sleep(1)
+ck.openpage('/', username + ' set the ' + randomword + ' namespace as private')
+
+
+
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
 print(green + 'Successes: ' + str(ck.success) + end)
