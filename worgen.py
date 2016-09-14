@@ -3,5 +3,5 @@ import random
 
 wordlen = 4
 letters = "abcdefghijklmnopqrstuvwxyz"
-word =  "".join(random.sample(letters,wordlen))
+randomword =  "".join(random.sample(letters,wordlen))
 
