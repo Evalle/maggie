@@ -89,12 +89,16 @@ class Checker(object):
         self.chktext(text)
     
     def clicklink(self, link):
-        """ click on particular link on the web page """
+        """ click on the particular link on the web page """
         self.browser.click_link_by_partial_href(link)
     
     def clickid(self, id):
-        """ click on particular link (by id) on the web page """
+        """ click on the particular link (by id) on the web page """
         self.browser.find_by_id(id).first.click()
+    
+    def clickname(self, name):
+        """ click on the particular link (by name) on the web page """ 
+        self.browser.find_by_name(name).first.click()
 
     def findlink(self, link):
         """ find particular element on the page """
@@ -142,9 +146,14 @@ for link in ('#all', '#starred', '#personal'):
 section_output('*', 'Team section tests')
 ck.clicklink('/teams')
 ck.clickid('add_team_btn')
+time.sleep(1)
 browser.find_by_id('team_name').first.fill('qamteam')
+time.sleep(1)
 browser.find_by_id('team_description').first.fill('QAM team')
+ck.clickname('commit')
+time.sleep(1)
 ck.chktext('qamteam')
+
 
 # Namespaces section tests
 #section_output('*', 'Namespaces section tests')
