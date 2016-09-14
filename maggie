@@ -45,20 +45,13 @@ user_port = args.port
 
 startTime = time.time()
 
-# test browser
-#browser = Browser('chrome')
-# prodcution browser
+## test browser
+# browser = Browser('chrome')
+## prodcution browser
 browser = Browser('phantomjs', service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any'])
 browser.driver.set_window_size(1920 ,1080)
 url = "https://" + user_address + ":" + user_port 
 browser.visit(url)
-
-# authentication on the main portus page
-#xpath_username = '//*[@id="user_username"]'
-#xpath_password = '//*[@id="user_password"]'
-#browser.find_by_xpath(xpath_username).first.fill(username)
-#browser.find_by_xpath(xpath_password).first.fill(password)
-#browser.find_by_name('button').first.click()
 browser.find_by_id('user_username').first.fill(username)
 browser.find_by_id('user_password').first.fill(password)
 browser.find_by_name('button').first.click()
@@ -117,11 +110,11 @@ def section_output(uline, title):
 ### test runners
 ck = Checker(browser)
 
-# check if version of portus is correct (see .conf file for more info
+# 1) check if version of portus is correct (see .conf file for more info
 section_output('*', 'Portus version')
 ck.chktext(version)
 
-# check every available section on the left side of the main page 
+# 2) - 5)  check every available section on the left side of the main page 
 section_output('*', 'Main page tests')
 ck.chktext(username)
 for i,k in (('/', 'Recent activities'), 
@@ -135,13 +128,13 @@ for i,k in (('/', 'Recent activities'),
 # go back to the main page
 ck.clicklink('/')
 
-# check Repositories section on the main page
+# 6) - 8) check Repositories section on the main page
 section_output('-', 'Repositories section tests')
 ck.chktext('Repositories')
 for link in ('#all', '#starred', '#personal'):
     ck.findlink(link)
 
-# Team section tests
+# 9) Team section tests
 section_output('*', 'Team section tests')
 ck.clicklink('/teams')
 ck.clickid('add_team_btn')
@@ -152,11 +145,11 @@ browser.find_by_id('team_description').first.fill('QAM team')
 ck.clickname('commit')
 time.sleep(1)
 ck.chktext(randomword)
-# check that our acitivity is visible on the main page
+# 10) check that our acitivity is visible on the main page
 time.sleep(1)
 ck.openpage('/', username + ' created team ' + randomword)
 
-# Namespaces section test
+# 11) Namespaces section test
 section_output('*', 'Namespaces section tests')
 ck.clicklink('/namespaces')
 ck.clickid('add_namespace_btn')
@@ -169,9 +162,18 @@ browser.find_by_id('namespace_description').first.fill('Qam test ' + randomword)
 ck.clickname('commit')
 time.sleep(1)
 ck.chktext(randomword)
-# check that our activity is visible on the main page
+# 12) check that our activity is visible on the main page
 time.sleep(1)
 ck.openpage('/', username + ' created the ' + randomword + ' namespace under the ' + randomword + ' team')
+
+# 13) Namespace section: check Private - Public namespace functionality
+section_output('-', 'Check private-public button functionality')
+ck.clicklink('/namespaces')
+time.sleep(1)
+browser.find_link_by_partial_href('/namespaces/').last.click()
+# 14) check that our activity is visible on the main page
+time.sleep(1)
+ck.openpage('/', username + ' set the ' + randomword + ' namespace as public')
 
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
