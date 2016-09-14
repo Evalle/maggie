@@ -152,6 +152,9 @@ browser.find_by_id('team_description').first.fill('QAM team')
 ck.clickname('commit')
 time.sleep(1)
 ck.chktext(randomword)
+# check that our acitivity is visible on the main page
+time.sleep(1)
+ck.openpage('/', username + ' created team ' + randomword)
 
 # Namespaces section test
 section_output('*', 'Namespaces section tests')
@@ -164,8 +167,11 @@ browser.find_by_id('namespace_team').first.fill(randomword)
 time.sleep(1)
 browser.find_by_id('namespace_description').first.fill('Qam test ' + randomword)
 ck.clickname('commit')
+time.sleep(1)
 ck.chktext(randomword)
-
+# check that our activity is visible on the main page
+time.sleep(1)
+ck.openpage('/', username + ' created the ' + randomword + ' namespace under the ' + randomword + ' team')
 
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
