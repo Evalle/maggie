@@ -1,8 +1,6 @@
 # Maggie
-Maggie is an collection of autotests for [Portus](http://port.us.org/). Currently it's in the POC stage. 
-
+Maggie is an collection of autotests for [Portus](http://port.us.org/). 
 Portus is an authorization service and frontend for Docker registry (v2).
-
 This project was written in Python and it uses [Splinter library](https://splinter.readthedocs.io/en/latest/)
 
 ##Preparations
@@ -12,7 +10,7 @@ This project was written in Python and it uses [Splinter library](https://splint
 ```
 $ pip install selenium splinter
 ```
-It’s important to note that you also need to have Google Chrome installed on your machine.
+It’s important to note that you also need to have phantomjs installed on your machine.
 
 2) Then you need to clone current repository 
 ``` 
