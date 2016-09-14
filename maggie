@@ -1,10 +1,9 @@
 #!/usr/bin/python
 # global imports
-import sys
-import argparse
-import time
+import sys, argparse, time 
 from configparser import SafeConfigParser
 from splinter import Browser
+from worgen import randomword
 
 class Colors:
 
@@ -47,9 +46,9 @@ user_port = args.port
 startTime = time.time()
 
 # test browser
-browser = Browser('chrome')
+#browser = Browser('chrome')
 # prodcution browser
-#browser = Browser('phantomjs', service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any'])
+browser = Browser('phantomjs', service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any'])
 browser.driver.set_window_size(1920 ,1080)
 url = "https://" + user_address + ":" + user_port 
 browser.visit(url)
@@ -147,21 +146,25 @@ section_output('*', 'Team section tests')
 ck.clicklink('/teams')
 ck.clickid('add_team_btn')
 time.sleep(1)
-browser.find_by_id('team_name').first.fill('qamteam')
+browser.find_by_id('team_name').first.fill(randomword)
 time.sleep(1)
 browser.find_by_id('team_description').first.fill('QAM team')
 ck.clickname('commit')
 time.sleep(1)
-ck.chktext('qamteam')
+ck.chktext(randomword)
 
-
-# Namespaces section tests
-#section_output('*', 'Namespaces section tests')
-#ck.clicklink('/namespaces')
-#ck.clickid('add_namespace_btn')
-#browser.find_by_id('namespace_namespace').first.fill('linux')
-#browser.find_by_id('namespace_team').first.fill('QA Maintenanc
-
+# Namespaces section test
+section_output('*', 'Namespaces section tests')
+ck.clicklink('/namespaces')
+ck.clickid('add_namespace_btn')
+time.sleep(1)
+browser.find_by_id('namespace_namespace').first.fill(randomword)
+time.sleep(1)
+browser.find_by_id('namespace_team').first.fill(randomword)
+time.sleep(1)
+browser.find_by_id('namespace_description').first.fill('Qam test ' + randomword)
+ck.clickname('commit')
+ck.chktext(randomword)
 
 
 section_output('*', 'Summary')
