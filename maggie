@@ -75,10 +75,10 @@ class Checker(object):
     def chktext(self, text):
         """ check if text is present and visible on the page """ 
         if self.browser.is_text_present(text):
-            print("%-40s %s" % (text, green + 'PASSED' + end))
+            print("%-55s %s" % (text, green + 'PASSED' + end))
             self.success += 1
         else:
-            print("%-40s %s" % (text, red + 'FAILED' + end))
+            print("%-55s %s" % (text, red + 'FAILED' + end))
             self.errors += 1
     
     def openpage(self, link, text):
@@ -102,10 +102,10 @@ class Checker(object):
     def findlink(self, link):
         """ find particular element on the page """
         if  self.browser.find_link_by_partial_href(link):
-            print("%-40s %s" % (link, green + 'PASSED' + end))
+            print("%-55s %s" % (link, green + 'PASSED' + end))
             self.success += 1
         else:
-            print("%-40s %s" % (link, red + 'FAILED' + end))
+            print("%-55s %s" % (link, red + 'FAILED' + end))
             self.errors += 1
     
 def section_output(uline, title): 
