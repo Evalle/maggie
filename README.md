@@ -17,8 +17,39 @@ It’s important to note that you also need to have phantomjs installed on your 
 $ git clone https://github.com/Evalle/maggie.git
 ```
 
-3) Now you can run **maggie** (see Examples section).
+3) Now you can run **maggie** (see *Examples* section).
 
+##Examples
+```
+evgeny ~/Projects/maggie $ ./maggie -h
+usage: maggie [-h] address port
+
+Portus autotestsuite, run it via 'maggie -a <address> -p <port>'
+
+positional arguments:
+  address     portus address, for example 192.168.0.2
+  port        portus port, for example 80, 3000
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+```
+evgeny ~/Projects/maggie $ ./maggie 127.0.0.99 8080
+
+Portus version
+**************
+2.0.5                                                   PASSED
+
+Main page tests
+***************
+qamtest                                                 PASSED
+Recent activities                                       PASSED
+Special namespaces                                      PASSED
+Teams you are member of                                 PASSED
+
+Repositories section tests
+```
 
 ### Free software
 
