@@ -49,6 +49,7 @@ Special namespaces                                      PASSED
 Teams you are member of                                 PASSED
 
 Repositories section tests
+--- cut --- 
 ```
 
 ### Free software
