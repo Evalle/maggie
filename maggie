@@ -116,6 +116,7 @@ ck.chktext(version)
 
 # 2) - 5)  check every available section on the left side of the main page 
 section_output('*', 'Main page tests')
+time.sleep(1)
 ck.chktext(username)
 for i,k in (('/', 'Recent activities'), 
         ('/namespaces', 'Special namespaces'),
@@ -130,12 +131,15 @@ ck.clicklink('/')
 
 # 6) - 8) check Repositories section on the main page
 section_output('-', 'Repositories section tests')
+time.sleep(1)
 ck.chktext('Repositories')
+time.sleep(1)
 for link in ('#all', '#starred', '#personal'):
     ck.findlink(link)
 
 # 9) Team section tests
 section_output('*', 'Team section tests')
+time.sleep(1)
 ck.clicklink('/teams')
 ck.clickid('add_team_btn')
 time.sleep(1)
@@ -151,7 +155,9 @@ ck.openpage('/', username + ' created team ' + randomword)
 
 # 11) Namespaces section test
 section_output('*', 'Namespaces section tests')
+time.sleep(1)
 ck.clicklink('/namespaces')
+time.sleep(1)
 ck.clickid('add_namespace_btn')
 time.sleep(1)
 browser.find_by_id('namespace_namespace').first.fill(randomword)
@@ -168,6 +174,7 @@ ck.openpage('/', username + ' created the ' + randomword + ' namespace under the
 
 # 13) Namespace section: check Private - Public namespace functionality
 section_output('-', 'Check private-public button functionality')
+time.sleep(2)
 ck.clicklink('/namespaces')
 time.sleep(1)
 browser.find_link_by_partial_href('/namespaces/').last.click()
@@ -177,14 +184,13 @@ ck.openpage('/', username + ' set the ' + randomword + ' namespace as public')
 
 # 15) Namespace section check Public - Private namespace functionality
 section_output('-', 'Check Public-private button functionality')
+time.sleep(1)
 ck.clicklink('/namespaces')
 time.sleep(1)
 browser.find_link_by_partial_href('/namespaces/').last.click()
 # check that our activity is visible on the main page
 time.sleep(1)
 ck.openpage('/', username + ' set the ' + randomword + ' namespace as private')
-
-
 
 section_output('*', 'Summary')
 print(blue + 'Ran: ' + str(ck.errors + ck.success) + ' tests' + end)
