@@ -3,7 +3,7 @@ Maggie is an collection of autotests for [Portus](http://port.us.org/).
 Portus is an authorization service and frontend for Docker registry (v2).
 This project was written in Python and it uses [Splinter library](https://splinter.readthedocs.io/en/latest/)
 
-##Preparations
+## Preparations
 
 1) First of all you'll need a couple of additional libraries. Each of them can be installed via **pip** https://pypi.python.org/pypi/pip
 
@@ -19,7 +19,7 @@ $ git clone https://github.com/Evalle/maggie.git
 
 3) Now you can run **maggie** (see *Examples* section).
 
-##Examples
+## Examples
 ```
 evgeny ~/Projects/maggie $ ./maggie -h
 usage: maggie [-h] address port
